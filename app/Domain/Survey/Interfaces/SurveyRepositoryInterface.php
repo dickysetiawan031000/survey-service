@@ -9,4 +9,7 @@ interface SurveyRepositoryInterface
 {
     public function save(Survey $survey): Survey;
     public function getAll(): Collection;
+    public function findById(int $id): ?Survey;
+    public function update(Survey $survey): Survey;
+    public function delete(int $id): bool;
 }
