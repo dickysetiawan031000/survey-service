@@ -15,6 +15,11 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Domain\Survey\Interfaces\SurveyRepositoryInterface::class,
             \App\Infrastructure\Persistence\Eloquent\SurveyRepository::class
         );
+
+        $this->app->bind(
+            \App\Domain\Question\Interfaces\QuestionRepositoryInterface::class,
+            \App\Infrastructure\Persistence\Eloquent\QuestionRepository::class
+        );
     }
 
     /**
