@@ -11,7 +11,7 @@ class UpdateQuestionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,7 +25,6 @@ class UpdateQuestionRequest extends FormRequest
             'text' => 'sometimes|required|string|max:255',
             'type' => 'sometimes|required|string|in:text,radio,checkbox,select',
             'options' => 'nullable|array',
-            'options.*' => 'string|max:255',
         ];
     }
 }

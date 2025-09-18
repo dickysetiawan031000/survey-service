@@ -9,6 +9,7 @@ class Survey
         public string $title,
         public ?string $description = null,
         public ?string $category = null,
+        public ?array $questions = null,
     ) {}
 
     public function getId(): ?int

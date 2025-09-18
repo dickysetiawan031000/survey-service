@@ -21,11 +21,13 @@ class QuestionRepository implements QuestionRepositoryInterface
     public function update(Question $question): Question
     {
         $model = QuestionModel::findOrFail($question->id);
+
         $model = QuestionMapper::toModel($question, $model);
         $model->save();
 
         return QuestionMapper::toEntity($model);
     }
+
 
     public function delete(int $id): bool
     {

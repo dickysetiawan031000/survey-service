@@ -3,6 +3,7 @@
 namespace App\UseCases\Survey;
 
 use App\Domain\Survey\Entities\Survey;
+use App\Domain\Survey\Exceptions\SurveyNotFoundException;
 use App\Domain\Survey\Interfaces\SurveyRepositoryInterface;
 
 class UpdateSurvey
@@ -13,13 +14,11 @@ class UpdateSurvey
 
     public function execute(int $id, string $title, ?string $description, ?string $category): Survey
     {
-        // Cari survey lama
         $existingSurvey = $this->surveyRepository->findById($id);
         if (!$existingSurvey) {
-            throw new \Exception("Survey not found");
+            throw new SurveyNotFoundException();
         }
 
-        // Update field
         $updatedSurvey = new Survey(
             $existingSurvey->id,
             $title,
@@ -27,7 +26,6 @@ class UpdateSurvey
             $category
         );
 
-        // Simpan ke repository
         return $this->surveyRepository->update($updatedSurvey);
     }
 }

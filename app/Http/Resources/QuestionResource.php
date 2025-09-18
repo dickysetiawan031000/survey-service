@@ -14,6 +14,8 @@ class QuestionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $question = $this->resource;
+
         return [
             'id' => $this->id,
             'survey_id' => $this->survey_id,

@@ -17,7 +17,6 @@ class SurveyController extends Controller
     public function index(GetAllSurveys $getAllSurveys)
     {
         $surveys = $getAllSurveys->execute();
-
         return SurveyResource::collection($surveys);
     }
     public function store(CreateSurveyRequest $request, CreateSurvey $createSurvey)
@@ -46,11 +45,6 @@ class SurveyController extends Controller
     public function show(int $id, GetSurveyById $getSurveyById)
     {
         $survey = $getSurveyById->execute($id);
-
-        if (!$survey) {
-            return response()->json(['message' => 'Survey not found'], 404);
-        }
-
         return new SurveyResource($survey);
     }
 

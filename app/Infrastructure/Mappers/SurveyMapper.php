@@ -14,6 +14,7 @@ class SurveyMapper
             title: $model->title,
             description: $model->description,
             category: $model->category,
+            questions: $model->questions ? $model->questions->map(fn($q) => QuestionMapper::toEntity($q))->toArray() : []
         );
     }
 

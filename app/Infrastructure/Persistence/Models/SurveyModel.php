@@ -13,4 +13,9 @@ class SurveyModel extends Model
         'description',
         'category',
     ];
+
+    public function questions()
+    {
+        return $this->hasMany(QuestionModel::class, 'survey_id');
+    }
 }

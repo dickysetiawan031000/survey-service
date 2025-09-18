@@ -15,5 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (\App\Domain\Survey\Exceptions\SurveyNotFoundException $surveyNotFoundException){
+            return response()->json([
+                'message' => $surveyNotFoundException->getMessage()], 404);
+        });
     })->create();
