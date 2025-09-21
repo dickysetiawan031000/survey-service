@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: survey-service-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - survey-network
+    depends_on:
+      - db
+      - redis
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=survey_db
+      - DB_USERNAME=survey_user
+      - DB_PASSWORD=survey_password
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=null
+      - REDIS_PORT=6379
+    ports:
+      - "8000:80"
+
+  db:
+    image: mysql:8.0
+    platform: linux/arm64/v8
+    container_name: survey-service-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: survey_db
+      MYSQL_USER: survey_user
+      MYSQL_PASSWORD: survey_password
+      MYSQL_ROOT_PASSWORD: root_password
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "33060:3306"
+    networks:
+      - survey-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: survey-service-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - survey-network
+
+  phpmyadmin:
+    image: arm64v8/phpmyadmin
+    container_name: survey-service-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: survey_user
+      PMA_PASSWORD: survey_password
+    ports:
+      - "8080:80"
+    networks:
+      - survey-network
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+
+networks:
+  survey-network:
+    driver: bridge
